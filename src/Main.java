@@ -76,20 +76,8 @@ public class Main {
 					continue;
 				}
 
-				Article foundArticle = null;
+				Article foundArticle = getArticleById(id);
 
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-					if (article.getId() == id) {
-						foundArticle = article;
-						break;
-					}
-				}
-
-				if (foundArticle == null) {
-					System.out.printf("%d번 게시글은 없습니다. 주인님.\n", id);
-					continue;
-				}
 				System.out.println("번호 : " + foundArticle.getId());
 				System.out.println("작성 날짜 : " + foundArticle.getRegDate());
 				System.out.println("수정 날짜 : " + foundArticle.getUpdateDate());
@@ -112,15 +100,7 @@ public class Main {
 					continue;
 				}
 
-				Article foundArticle = null;
-
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-					if (article.getId() == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시글은 없습니다. 주인님.\n", id);
@@ -142,15 +122,7 @@ public class Main {
 					continue;
 				}
 
-				Article foundArticle = null;
-
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-					if (article.getId() == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시글은 없습니다. 주인님.\n", id);
@@ -178,13 +150,21 @@ public class Main {
 		sc.close();
 	}
 
+	private static Article getArticleById(int id) {
+		for (int i = 0; i < articles.size(); i++) {
+			Article article = articles.get(i);
+			if (article.getId() == id) {
+				return article;
+			}
+		}
+		return null;
+	}
+
 	private static void makeTestData() {
 		System.out.println("테스트를 위한 데이터를 생성하겠습니다.");
 
-		articles.add(new Article(1, "2024-01-01 12:12:12", Util.getNowDate_TimeStr(), "고양이", "귀여워", 10 ));
-
-		articles.add(new Article(2,"2023-12-12 12:12:12", Util.getNowDate_TimeStr(), "강아지", "귀여워", 20));
-
+		articles.add(new Article(1, "2024-01-01 12:12:12", Util.getNowDate_TimeStr(), "고양이", "귀여워", 10));
+		articles.add(new Article(2, "2023-12-12 12:12:12", Util.getNowDate_TimeStr(), "강아지", "귀여워", 20));
 		articles.add(new Article(3, Util.getNowDate_TimeStr(), Util.getNowDate_TimeStr(), "수달", "초초귀여워", 30));
 	}
 }
@@ -201,7 +181,7 @@ class Article {
 	public Article(int id, String regDate, String updateDate, String title, String body) {
 		this(id, regDate, updateDate, title, body, 0);
 	}
-	
+
 	public Article(int id, String regDate, String updateDate, String title, String body, int hit) {
 		this.id = id;
 		this.regDate = regDate;
@@ -210,7 +190,6 @@ class Article {
 		this.body = body;
 		this.hit = hit;
 	}
-
 
 	public int getId() {
 		return id;
