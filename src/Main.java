@@ -1,5 +1,3 @@
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -71,6 +69,36 @@ public class Main {
 					System.out.println("날짜 : " + foundArticle.getRegDate());
 					System.out.println("제목 : " + foundArticle.getTitle());
 					System.out.println("내용 : " + foundArticle.getBody());
+				}
+
+			} else if (cmd.startsWith("article delete")) {
+				String[] cmdDiv = cmd.split(" ");
+
+				int id = 0;
+
+				try {
+					id = Integer.parseInt(cmdDiv[2]);
+				} catch (Exception e) {
+					System.out.println("메뉴얼대로 움직여라 인간.");
+					continue;
+				}
+
+				int foundIndex = -1;
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+					if (article.getId() == id) {
+						foundIndex = i;
+						break;
+					}
+				}
+
+				if (foundIndex == -1) {
+					System.out.printf("%d번 게시글은 없습니다. 주인님.\n", id);
+					
+				} else {
+					articles.remove(foundIndex);
+					System.out.printf("%d번 게시글이 삭제되었습니다. 주인님.\n", id);
+					
 				}
 
 			} else {
