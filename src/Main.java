@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Main {
 	private static List<Article> articles = new ArrayList<>();
+	private static List<Member> members = new ArrayList<>();
 
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 == ");
@@ -14,7 +15,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 
 		int lastArticleId = 3;
-
+		int lastMemberId = 0;
 		while (true) {
 			System.out.print("명령어 > ");
 			String cmd = sc.nextLine().trim();
@@ -27,7 +28,31 @@ public class Main {
 			if (cmd.equals("exit")) {
 				break;
 			}
-			if (cmd.equals("article write")) {
+			if (cmd.equals("member join")) {
+				System.out.println("==회원 가입==");
+				int id = lastMemberId + 1;
+				String regDate = Util.getNowDate_TimeStr();
+				String loginId = null;
+				while (true) {
+					System.out.print("로그인 아이디 : ");
+					loginId = sc.nextLine();
+					if (isJoinableLoginId(loginId) == false) {
+						System.out.println("이미 사용중이야");
+						continue;
+					}
+					break;
+				}
+				System.out.print("로그인 비밀번호 : ");
+				String loginPw = sc.nextLine();
+				System.out.print("이름 : ");
+				String name = sc.nextLine();
+
+				Member member = new Member(id, regDate, loginId, loginPw, name);
+				members.add(member);
+
+				System.out.printf("%d번 회원이 가입 되었습니다. %s님 환영합니다.\n", id, name);
+				lastMemberId++;
+			} else if (cmd.equals("article write")) {
 				System.out.println("==게시글 작성==");
 				int id = lastArticleId + 1;
 				String regDate = Util.getNowDate_TimeStr();
@@ -170,9 +195,18 @@ public class Main {
 
 	}
 
+	private static boolean isJoinableLoginId(String loginId) {
+		for (Member member : members) {
+			if (member.getLoginId().equals(loginId)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	private static Article getArticleById(int id) {
-		for (int i = 0; i < articles.size(); i++) {
-			Article article = articles.get(i);
+		for (Article article : articles) {
 			if (article.getId() == id) {
 				return article;
 			}
@@ -184,11 +218,67 @@ public class Main {
 		System.out.println("테스트를 위한 데이터를 생성하겠습니다.");
 
 		articles.add(new Article(1, "2024-01-01 12:12:12", Util.getNowDate_TimeStr(), "고양이", "귀여워", 10));
-		articles.add(new Article(2, "2023-12-12 12:12:12", Util.getNowDate_TimeStr(), "강아지", "귀여워", 20));
+		articles.add(new Article(2, "2023-12-12 12:12:12", Util.getNowDate_TimeStr(), "응가", "뿌직뿌직", 20));
 		articles.add(new Article(3, Util.getNowDate_TimeStr(), Util.getNowDate_TimeStr(), "수달", "초초귀여워", 30));
 	}
 }
+class Member {
+	private int id;
+	private String regDate;
 
+	private String loginId;
+	private String loginPw;
+	private String name;
+
+	public Member(int id, String regDate, String loginId, String loginPw, String name) {
+		this.id = id;
+		this.regDate = regDate;
+		this.loginId = loginId;
+		this.loginPw = loginPw;
+		this.name = name;
+	}
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+
+	public String getLoginPw() {
+		return loginPw;
+	}
+
+	public void setLoginPw(String loginPw) {
+		this.loginPw = loginPw;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+
+}
 class Article {
 	private int id;
 	private String regDate;
