@@ -15,11 +15,14 @@ public class MemberController extends Controller {
 
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
-		;
 		this.sc = sc;
 	}
 
-	private int lastMemberId = 0;
+	public MemberController() {
+
+	}
+
+	private int lastMemberId = 3;
 
 	public void doAction(String actionMethodName, String cmd) {
 		this.cmd = cmd;
@@ -29,10 +32,55 @@ public class MemberController extends Controller {
 		case "join":
 			doJoin();
 			break;
+		case "login":
+			if (isLogined()) {
+				System.out.println("이미 로그인 상태입니다. 주인님.");
+				return;
+			}
+			doLogin();
+			break;
+		case "logout":
+			if (!isLogined()) {
+				System.out.println("이미 로그아웃 상태입니다. 주인님");
+				return;
+			}
+			doLogout();
+			break;
 		default:
 			System.out.println("잘못된 명령입니다. 주인님");
 			break;
 		}
+	}
+
+	private void doLogout() {
+
+		loginedMember = null;
+
+		System.out.println("로그아웃되었습니다. 주인님.");
+	}
+
+	private void doLogin() {
+		System.out.println("== 로그인 ==");
+		System.out.print("login id : ");
+		String loginId = sc.nextLine().trim();
+		System.out.print("login pw : ");
+		String loginPw = sc.nextLine().trim();
+		Member member = getMemberByLoginId(loginId);
+
+		if (member == null) {
+			System.out.println("일치하는 회원이 없습니다. 다시 입력해주세요. 주인님.");
+			return;
+		}
+
+		if (member.getLoginPw().equals(loginPw) == false) {
+			System.out.println("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+			return;
+		}
+
+		this.loginedMember = member;
+
+		System.out.printf("로그인 성공! %s님 반갑습니다.\n", loginedMember.getName());
+
 	}
 
 	private void doJoin() {
@@ -44,7 +92,7 @@ public class MemberController extends Controller {
 			System.out.print("로그인 아이디 : ");
 			loginId = sc.nextLine();
 			if (isJoinableLoginId(loginId) == false) {
-				System.out.println("이미 사용중이야");
+				System.out.println("이미 사용중입니다 주인님 다시 입력해주세요.");
 				continue;
 			}
 			break;
@@ -71,6 +119,15 @@ public class MemberController extends Controller {
 		lastMemberId++;
 	}
 
+	private Member getMemberByLoginId(String loginId) {
+		for (Member member : members) {
+			if (member.getLoginId().equals(loginId)) {
+				return member;
+			}
+		}
+		return null;
+	}
+
 	private boolean isJoinableLoginId(String loginId) {
 		for (Member member : members) {
 			if (member.getLoginId().equals(loginId)) {
@@ -79,5 +136,12 @@ public class MemberController extends Controller {
 		}
 
 		return true;
+	}
+
+	public void makeTestMemberData() {
+		System.out.println("테스트를 위한 회원 데이터를 생성하겠습니다.");
+		members.add(new Member(1, Util.getNowDate_TimeStr(), "qwe", "qwe", "고양이"));
+		members.add(new Member(2, Util.getNowDate_TimeStr(), "asd", "asd", "수달"));
+		members.add(new Member(3, Util.getNowDate_TimeStr(), "zxc", "zxc", "강아지"));
 	}
 }
