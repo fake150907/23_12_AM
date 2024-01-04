@@ -9,6 +9,10 @@ public class MemberDao {
 	public List<Member> members;
 
 	public MemberDao() {
-		this.members = new ArrayList<>();
+		members = new ArrayList<>();
+	}
+
+	public List<Member> getMembers() {
+		return members;
 	}
 }

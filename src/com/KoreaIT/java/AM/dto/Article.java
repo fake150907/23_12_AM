@@ -1,27 +1,47 @@
 package com.KoreaIT.java.AM.dto;
 
+import com.KoreaIT.java.AM.util.Util;
+
 public class Article extends Dto {
 
 	private String updateDate;
-	private int memberId;
 
 	private String title;
 	private String body;
+
+	private int memberId;
 
 	private int hit;
 
 	public Article(int id, String regDate, String updateDate, int memberId, String title, String body) {
 		this(id, regDate, updateDate, memberId, title, body, 0);
-		this.memberId = memberId;
 	}
 
 	public Article(int id, String regDate, String updateDate, int memberId, String title, String body, int hit) {
 		this.id = id;
 		this.regDate = regDate;
 		this.updateDate = updateDate;
+		this.memberId = memberId;
 		this.title = title;
 		this.body = body;
 		this.hit = hit;
+	}
+
+	public void update(String newTitle, String newBody) {
+		this.setUpdateDate(Util.getNowDate_TimeStr());
+		this.setTitle(newTitle);
+		this.setBody(newBody);
+	}
+
+	public void increaseHit() {
+		this.hit++;
+	}
+
+	public int getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(int memberId) {
 		this.memberId = memberId;
 	}
 
@@ -73,11 +93,4 @@ public class Article extends Dto {
 		this.hit = hit;
 	}
 
-	public int getMemberId() {
-		return memberId;
-	}
-
-	public void setMemberId(int memberId) {
-		this.memberId = memberId;
-	}
 }
