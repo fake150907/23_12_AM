@@ -14,7 +14,7 @@ public class MemberController extends Controller {
 	private String actionMethodName;
 
 	public MemberController(Scanner sc) {
-		this.members = new ArrayList<>();
+		this.members = Container.memberDao.members;
 		this.sc = sc;
 	}
 

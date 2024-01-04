@@ -3,26 +3,26 @@ package com.KoreaIT.java.AM.dto;
 public class Article extends Dto {
 
 	private String updateDate;
-	private int writerId;
+	private int memberId;
 
 	private String title;
 	private String body;
 
 	private int hit;
 
-	public Article(int id, String regDate, String updateDate, int writerId, String title, String body) {
-		this(id, regDate, updateDate, writerId, title, body, 0);
-		this.writerId = writerId;
+	public Article(int id, String regDate, String updateDate, int memberId, String title, String body) {
+		this(id, regDate, updateDate, memberId, title, body, 0);
+		this.memberId = memberId;
 	}
 
-	public Article(int id, String regDate, String updateDate, int writerId, String title, String body, int hit) {
+	public Article(int id, String regDate, String updateDate, int memberId, String title, String body, int hit) {
 		this.id = id;
 		this.regDate = regDate;
 		this.updateDate = updateDate;
 		this.title = title;
 		this.body = body;
 		this.hit = hit;
-		this.writerId = writerId;
+		this.memberId = memberId;
 	}
 
 	public int getId() {
@@ -73,11 +73,11 @@ public class Article extends Dto {
 		this.hit = hit;
 	}
 
-	public int getWriterId() {
-		return writerId;
+	public int getMemberId() {
+		return memberId;
 	}
 
-	public void setWriterId(int writerId) {
-		this.writerId = writerId;
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
 	}
 }
